@@ -1,0 +1,802 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   MUSHFAN DIGITAL STUDIO — DESIGN SYSTEM
+   --------------------------------------------------------------------------
+   White-first editorial system built on a drafting-sheet metaphor:
+   hairline rules, production frames, mono micro-labels, one orange marker.
+
+   Ratio target — light ~88% / dark ~10% / orange ~2%.
+   Orange is a marker, never a surface. Never fill a section with it.
+   ========================================================================== */
+
+@theme {
+  /* ---- Color ------------------------------------------------------------ */
+  --color-paper: #ffffff; /* primary background */
+  --color-paper-2: #f8f8f7; /* secondary background */
+  --color-paper-3: #f3f3f1; /* soft section background */
+  --color-ink: #111111; /* primary text */
+  --color-ink-2: #555555; /* secondary text — 7.5:1 on paper */
+  /* Muted text. The brief specifies #888888; measured, that lands at 3.5:1 on
+     white and 3.2:1 on paper-3, under the 4.5:1 AA floor — and this token
+     carries the placeholder disclaimers, which are the last thing that should
+     be hard to read. Darkened to the nearest value that clears AA on all three
+     light surfaces (5.3 / 5.0 / 4.8:1) while keeping a visible step below
+     ink-2. */
+  --color-ink-3: #6b6b6b;
+  --color-rule: #e7e7e7; /* borders / hairlines */
+  --color-accent: #f97316; /* primary accent — marker only */
+  /* Accent darkened for AA as small text on paper. #c2570a measures 4.24:1 on
+     white, just under; this clears 5.3:1 there and 4.8:1 on paper-3. */
+  --color-accent-ink: #b04e05;
+  --color-carbon: #151515; /* dark surface */
+  --color-carbon-2: #1e1e1e; /* raised dark surface */
+  --color-carbon-rule: #2c2c2c; /* hairline on dark */
+  --color-chalk: #f2f2f0; /* primary text on dark */
+  --color-chalk-2: #a3a3a0; /* secondary text on dark */
+
+  /* ---- Type ------------------------------------------------------------- */
+  --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  /* Display scale — clamped, so type is fluid and never shifts layout.
+     display-1 is tuned by measurement rather than by eye. The hero's longest
+     line ("that move businesses") costs 10.45px of width per 1px of font-size
+     in Sora 600 at -0.035em, so this curve is solved to keep it inside the
+     shell — with ~5% slack — from 1024px up, where the headline holds its
+     three intended lines. Below that it wraps naturally.
+     Re-derive this if the headline copy ever changes. */
+  --text-display-1: clamp(2.375rem, 0.69rem + 7.01vw, 6.65rem);
+  --text-display-2: clamp(2.25rem, 1.3rem + 4vw, 4.25rem);
+  --text-display-3: clamp(1.75rem, 1.2rem + 2.2vw, 2.75rem);
+  --text-lede: clamp(1.0625rem, 0.98rem + 0.4vw, 1.3125rem);
+  --text-label: 0.6875rem; /* 11px mono micro-label */
+  --text-label-sm: 0.625rem; /* 10px mono micro-label */
+
+  /* ---- Spacing / layout -------------------------------------------------- */
+  --spacing-rail: 10.5rem; /* width of the drafting margin rail */
+  --spacing-section: clamp(5rem, 3rem + 8vw, 9.5rem);
+  --spacing-section-sm: clamp(3.5rem, 2.5rem + 4vw, 6rem);
+
+  --container-shell: 88rem; /* 1408px outer shell */
+  --container-prose: 46rem; /* readable measure ~72ch */
+
+  /* ---- Radius ------------------------------------------------------------ */
+  /* Deliberately near-square. Frames are drafted, not rounded. */
+  --radius-none: 0px;
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-pill: 999px;
+
+  /* ---- Elevation --------------------------------------------------------- */
+  /* Minimal shadows. Hairlines carry separation instead. */
+  --shadow-raise: 0 1px 2px rgb(17 17 17 / 0.04), 0 8px 24px rgb(17 17 17 / 0.06);
+  --shadow-float: 0 2px 4px rgb(17 17 17 / 0.05), 0 18px 48px rgb(17 17 17 / 0.09);
+
+  /* ---- Motion ------------------------------------------------------------ */
+  --ease-out-quart: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+  --duration-fast: 180ms;
+  --duration-base: 320ms;
+  --duration-slow: 620ms;
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    border-color: var(--color-rule);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* Sticky header height + breathing room for anchor targets. */
+    scroll-padding-top: 6.5rem;
+  }
+
+  /* Lenis eases scrolling itself once it mounts, and native smooth scroll would
+     fight its easing on every programmatic jump — the two run separate
+     animations toward the same target. The `lenis` class is only on <html>
+     while an instance is live, so the no-JavaScript and reduced-motion paths
+     keep the CSS behaviour above untouched. */
+  html.lenis {
+    scroll-behavior: auto;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    font-feature-settings: "kern" 1;
+    text-rendering: optimizeLegibility;
+    /* Guards against horizontal creep from the reels rail on small screens. */
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-weight: 600;
+    letter-spacing: -0.022em;
+    line-height: 1.06;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: #ffffff;
+  }
+
+  /* Single, consistent focus treatment across the whole site. The darkened
+     accent, not the raw one: WCAG 1.4.11 asks 3:1 of a focus indicator and
+     #f97316 measures 2.81:1 on white. Inside `.on-carbon` this token resolves
+     back to full accent, so the dark sections keep the brighter ring. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-ink);
+    outline-offset: 3px;
+    border-radius: var(--radius-xs);
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Kill the UA's yellow autofill wash — it breaks the paper palette. */
+  input:-webkit-autofill,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-text-fill-color: var(--color-ink);
+    -webkit-box-shadow: 0 0 0 1000px var(--color-paper) inset;
+    caret-color: var(--color-ink);
+  }
+
+  img,
+  svg,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+/* ==========================================================================
+   COMPONENT PRIMITIVES
+   ========================================================================== */
+
+@layer components {
+  /* ---- Shell ------------------------------------------------------------- */
+  .shell {
+    width: 100%;
+    max-width: var(--container-shell);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .shell {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .shell {
+      padding-inline: 3.5rem;
+    }
+  }
+
+  /* ---- Mono micro-label -------------------------------------------------- */
+  .label {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .label-sm {
+    font-family: var(--font-mono);
+    font-size: var(--text-label-sm);
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- Display type ------------------------------------------------------ */
+  .display-1 {
+    font-family: var(--font-display);
+    font-size: var(--text-display-1);
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+  }
+
+  .display-2 {
+    font-family: var(--font-display);
+    font-size: var(--text-display-2);
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -0.028em;
+  }
+
+  .display-3 {
+    font-family: var(--font-display);
+    font-size: var(--text-display-3);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+
+  .lede {
+    font-size: var(--text-lede);
+    line-height: 1.55;
+    color: var(--color-ink-2);
+    letter-spacing: -0.006em;
+  }
+
+  /* ---- Production frame -------------------------------------------------
+     The site's signature device. A hairline frame with corner crop marks,
+     echoing the artboards this studio actually delivers.
+     ---------------------------------------------------------------------- */
+  .frame {
+    position: relative;
+    border: 1px solid var(--color-rule);
+    background-color: var(--color-paper);
+  }
+
+  /* Crop marks. Widths are longhands so `border-color` stays the single
+     control point — a `border-top` shorthand here would silently reset the
+     colour to currentColor and break the marked variant. */
+  .frame::before,
+  .frame::after {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    pointer-events: none;
+    border-style: solid;
+    border-width: 0;
+    border-color: var(--color-ink);
+    opacity: 0.28;
+    transition: opacity var(--duration-base) var(--ease-out-quart);
+  }
+
+  .frame::before {
+    top: -1px;
+    left: -1px;
+    border-top-width: 1.5px;
+    border-left-width: 1.5px;
+  }
+
+  .frame::after {
+    right: -1px;
+    bottom: -1px;
+    border-right-width: 1.5px;
+    border-bottom-width: 1.5px;
+  }
+
+  .frame-marked::before,
+  .frame-marked::after {
+    border-color: var(--color-accent);
+    opacity: 1;
+  }
+
+  .on-carbon .frame::before,
+  .on-carbon .frame::after {
+    opacity: 0.35;
+  }
+
+  /* ---- Registration dot -------------------------------------------------- */
+  .reg-dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    flex: none;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-accent);
+  }
+
+  /* ---- Buttons ----------------------------------------------------------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    padding: 0.9375rem 1.5rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-xs);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.008em;
+    line-height: 1;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background-color var(--duration-fast) var(--ease-out-quart),
+      border-color var(--duration-fast) var(--ease-out-quart),
+      color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background-color: var(--color-ink);
+    color: #ffffff;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background-color: #000000;
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-ink);
+    border-color: var(--color-rule);
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    border-color: var(--color-ink);
+    background-color: var(--color-paper-2);
+  }
+
+  .on-carbon .btn-primary {
+    background-color: var(--color-chalk);
+    color: var(--color-carbon);
+  }
+
+  .on-carbon .btn-primary:hover:not(:disabled) {
+    background-color: #ffffff;
+  }
+
+  .on-carbon .btn-secondary:hover:not(:disabled) {
+    border-color: var(--color-chalk-2);
+  }
+
+  .btn-sm {
+    padding: 0.6875rem 1.125rem;
+    font-size: 0.875rem;
+  }
+
+  /* The movement lives on the arrow, not the button surface. */
+  .btn-arrow {
+    transition: transform var(--duration-base) var(--ease-out-quart);
+  }
+
+  .btn:hover .btn-arrow,
+  .btn:focus-visible .btn-arrow {
+    transform: translateX(3px);
+  }
+
+  /* ---- Form controls -----------------------------------------------------
+     One class for inputs, selects and textareas so the three never drift
+     apart. Fields are white on whatever surface the section uses — on the soft
+     paper-3 background that reads as a clean sheet laid on the page, and
+     inside `.on-carbon` the same token resolves to the raised dark surface, so
+     nothing needs a dark-mode variant.
+
+     The invalid state borrows the accent rather than introducing red: the
+     palette has exactly one signal colour, and the error text beside the field
+     already uses it.
+     ---------------------------------------------------------------------- */
+  .input {
+    display: block;
+    width: 100%;
+    padding: 0.8125rem 0.9375rem;
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-xs);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    transition:
+      border-color var(--duration-fast) var(--ease-out-quart),
+      background-color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .input::placeholder {
+    color: var(--color-ink-3);
+  }
+
+  .input:hover:not(:focus) {
+    border-color: #d4d4d1;
+  }
+
+  .input:focus {
+    border-color: var(--color-ink);
+    outline: none;
+  }
+
+  /* Keyboard and pointer focus both land here on text fields, so the ring is
+     restored explicitly after the reset above rather than left to
+     :focus-visible. */
+  .input:focus-visible {
+    outline: 2px solid var(--color-accent-ink);
+    outline-offset: 2px;
+  }
+
+  .input[aria-invalid="true"] {
+    border-color: var(--color-accent);
+  }
+
+  /* Native select arrow, drawn to the same 1.5px stroke as the icon set.
+     Encoded rather than an SVG file so it cannot 404 and costs no request. */
+  select.input {
+    appearance: none;
+    padding-right: 2.5rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%23111111' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6.5l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.875rem center;
+  }
+
+  .on-carbon select.input {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%23f2f2f0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6.5l4 4 4-4'/%3E%3C/svg%3E");
+  }
+
+  /* ---- Text link with a drawn underline ---------------------------------- */
+  .link-draw {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-ink);
+    text-decoration: none;
+    padding-bottom: 2px;
+  }
+
+  .link-draw::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-base) var(--ease-out-quart);
+  }
+
+  .link-draw:hover::after,
+  .link-draw:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* Let a wrapping link drive the underline too, so hovering the trailing
+     arrow — outside the text span — still draws it. */
+  .group:hover .link-draw::after,
+  .group:focus-visible .link-draw::after {
+    transform: scaleX(1);
+  }
+
+  /* ---- Section margin rail ----------------------------------------------- */
+  .rail-rule {
+    display: block;
+    width: 1.75rem;
+    height: 1px;
+    background-color: var(--color-accent);
+  }
+}
+
+/* ==========================================================================
+   UTILITIES
+   --------------------------------------------------------------------------
+   Declared with `@utility` rather than as plain classes inside @layer, so
+   Tailwind can compose variants onto them — `first:hairline-t`,
+   `lg:hairline-b` and so on. A plain `.hairline-t` in the utilities layer
+   would work bare but silently produce nothing when prefixed.
+   ========================================================================== */
+
+@utility hairline-t {
+  border-top: 1px solid var(--color-rule);
+}
+
+@utility hairline-b {
+  border-bottom: 1px solid var(--color-rule);
+}
+
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hero background parallax — translates at 10% of scroll speed via the
+   --parallax-bg property written by SmoothScroll's Lenis scroll event.
+   Apply to absolutely-positioned decorative layers only; content must never
+   move with this, or IntersectionObserver thresholds will drift. */
+@utility hero-parallax {
+  transform: translateY(var(--parallax-bg, 0px));
+  will-change: transform;
+}
+
+/* Blueprint grid — 1px lines on a 64px module, very low opacity, hero only. */
+@utility grid-paper {
+  background-image:
+    linear-gradient(to right, var(--color-rule) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-rule) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   DARK-SECTION RETINT
+   --------------------------------------------------------------------------
+   `.on-carbon` remaps the palette variables themselves instead of overriding
+   rule after rule. Every consumer of these tokens follows automatically —
+   `text-ink-2`, `border-rule`, `hairline-t`, `.lede`, `.frame`, and the base
+   `h2 { color: var(--color-ink) }` that would otherwise paint headings #111111
+   on a #151515 surface.
+
+   Doing it here also sidesteps a layering problem: Tailwind emits `text-ink-2`
+   into the utilities layer, so a `.on-carbon .lede { color: ... }` override in
+   the components layer would lose to it. Variables are resolved at use time and
+   care nothing about layers.
+
+   `--color-accent` is deliberately not remapped: orange is the one constant
+   across both surfaces. Text color itself still needs `text-chalk` on the
+   section, since `color` is inherited as a computed value from `body` and a
+   variable remap cannot reach back into it.
+   ========================================================================== */
+
+.on-carbon {
+  --color-ink: var(--color-chalk);
+  --color-ink-2: var(--color-chalk-2);
+  --color-ink-3: #8b8b88;
+  /* Orange stays orange, but the paper-safe darkened variant is dropped:
+     #b04e05 lands at 3.4:1 on #151515, where full accent reaches 6.5:1. */
+  --color-accent-ink: var(--color-accent);
+  --color-rule: var(--color-carbon-rule);
+  --color-paper: var(--color-carbon-2);
+  --color-paper-2: var(--color-carbon-2);
+  --color-paper-3: var(--color-carbon-2);
+}
+
+@layer utilities {
+  /* Swaps the marquee's controls for its reduced-motion fallback. A pause
+     button is meaningless once the animation is off, and a "scroll for more"
+     hint is wrong while the rail is moving on its own. */
+  .when-reduced-motion {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .when-motion {
+      display: none;
+    }
+
+    .when-reduced-motion {
+      display: inline-flex;
+    }
+  }
+
+  .skip-link {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    padding: 0.75rem 1.125rem;
+    background-color: var(--color-ink);
+    color: #ffffff;
+    border-radius: var(--radius-xs);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transform: translateY(-150%);
+    transition: transform var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .skip-link:focus-visible {
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   MOTION
+   --------------------------------------------------------------------------
+   Two orchestrated moments only: the hero load sequence and scroll reveals.
+   Both are opacity + small translate — GPU-friendly, no layout thrash.
+   ========================================================================== */
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes frame-settle {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes draw-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ---- Continuous marquee rail --------------------------------------------
+   The track holds the list twice and translates by exactly -50%, which lands
+   copy 2 where copy 1 began. Because the copies are identical the seam is
+   invisible, so the loop reads as one endless run rather than a reset.
+
+   The -50% is only exact if every card occupies the same advance. That is why
+   the spacing is a right margin on each item rather than a flex `gap`: with
+   `gap`, the track's total width is `2W + G` while a seamless loop needs to
+   travel `W + G`, and the half-gap error shows up as a jump once a cycle.
+
+   Speed is set per instance through --marquee-duration, since the right
+   duration depends on how wide one copy is.
+   ------------------------------------------------------------------------ */
+@keyframes marquee-x {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  /* Soften both edges so cards enter and leave the rail instead of being cut
+     by a hard boundary. This is a mask, not a pair of gradient overlays: it
+     fades to transparent rather than to a colour, so it keeps working if the
+     section's tone ever changes and needs no matching swatch. The build
+     auto-prefixes this, so no -webkit- copy by hand. */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--marquee-fade, 4rem),
+    #000 calc(100% - var(--marquee-fade, 4rem)),
+    transparent 100%
+  );
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-x var(--marquee-duration, 56s) linear infinite;
+}
+
+/* Deliberately no hover pause: the rail is meant to keep moving under the
+   pointer. Focus-within still pauses, which only fires from keyboard tabbing —
+   otherwise the focus ring would chase a link sliding out from under it. */
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Explicit control, for touch — where there is no hover to pause with. */
+.marquee.is-paused .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Scroll-triggered rule draw.
+   Unlike .rule-draw (which fires on mount), this variant waits until its
+   enclosing .reveal acquires .is-in — so the orange rail markers draw in
+   exactly when the section header scrolls into view, not at page load.
+   The element starts at scaleX(0); the animation is only attached when the
+   parent reveal fires, keeping specificity clean. */
+.rule-draw-scroll {
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.reveal.is-in .rule-draw-scroll {
+  animation: draw-x 700ms var(--ease-out-quart) forwards;
+  /* Slight delay so the heading text arrives first, then the rule draws. */
+  animation-delay: 120ms;
+}
+
+/* Scroll reveal — starts hidden, released by IntersectionObserver. */
+.reveal {
+  opacity: 0;
+}
+
+.reveal.is-in {
+  animation: reveal-up var(--duration-slow) var(--ease-out-quart) forwards;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+/* Hero load — runs immediately on mount, no observer. */
+.settle {
+  opacity: 0;
+  animation: frame-settle 900ms var(--ease-out-quart) forwards;
+  animation-delay: var(--settle-delay, 0ms);
+}
+
+.rule-draw {
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: draw-x 900ms var(--ease-out-quart) forwards;
+  animation-delay: var(--settle-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Everything must land in its final state, never stuck at opacity 0. */
+  .reveal,
+  .settle,
+  .rule-draw,
+  .rule-draw-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  /* The marquee becomes an ordinary scroll rail. Without the reset above it
+     the `*` rule would collapse the slide to 0.01ms and strand the track at
+     -50%, showing the duplicate copy and hiding the real one. The duplicate is
+     dropped here too: it exists only to make the loop seamless, and a rail the
+     reader scrolls by hand should not repeat itself. */
+  .marquee {
+    overflow-x: auto;
+  }
+
+  .marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .marquee-clone {
+    display: none;
+  }
+}
