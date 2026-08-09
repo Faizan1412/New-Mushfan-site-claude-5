@@ -117,7 +117,10 @@
     font-size: 1rem;
     line-height: 1.65;
     font-feature-settings: "kern" 1;
-    text-rendering: optimizeLegibility;
+    /* optimizeLegibility is omitted: it forces the browser to recalculate
+       kerning/ligatures on every repaint, which tanks scroll FPS. Kern is
+       already covered by font-feature-settings above. */
+    text-rendering: auto;
     /* Guards against horizontal creep from the reels rail on small screens. */
     overflow-x: clip;
   }
@@ -131,6 +134,14 @@
     font-weight: 600;
     letter-spacing: -0.022em;
     line-height: 1.06;
+  }
+
+  /* balance is the right wrap algorithm for short headings, but at display-1
+     and display-2 sizes the lines are already length-controlled by max-w-*
+     classes. Restricting it to h3/h4 avoids the per-element O(n²) cost on
+     every large heading while keeping it where it most improves rag. */
+  h3,
+  h4 {
     text-wrap: balance;
   }
 

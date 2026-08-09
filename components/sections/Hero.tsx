@@ -47,7 +47,7 @@ export function Hero() {
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 hidden lg:block"
-        style={{ transform: "translateY(calc(var(--parallax-bg, 0px) * 0.5))" }}
+        style={{ transform: "translateY(calc(var(--parallax-bg, 0px) * 0.5))", willChange: "transform" }}
       >
         <div className="shell h-full">
           <div className="grid h-full grid-cols-4 [mask-image:linear-gradient(to_bottom,transparent,black_18%,black_82%,transparent)]">
