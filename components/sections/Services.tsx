@@ -38,6 +38,7 @@ export function Services() {
         index="01"
         label="Services"
         titleId="services-title"
+        title="Everything you need to grow digitally."
         lede="From strategy and creative to technology and performance, we bring the pieces of your digital presence together."
       />
 
