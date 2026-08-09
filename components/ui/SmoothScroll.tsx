@@ -92,16 +92,24 @@ export function SmoothScroll() {
         stopInertiaOnNavigate: true,
       });
 
-      // Write scroll position as a CSS custom property so purely-CSS parallax
-      // layers can offset themselves without any component needing JS. The ratio
-      // (0.1) means a decorative element travels at 10% of the scroll rate —
-      // readable as depth without being distracting. toFixed(1) avoids
-      // sub-pixel thrashing in the style engine.
+      // Write parallax transforms directly to each element rather than via a
+      // CSS custom property on :root. Setting --parallax-bg on documentElement
+      // forces the browser to re-evaluate the entire document's style cascade on
+      // every RAF frame — that is the exact cause of the choppy-scroll feel.
+      // Writing element.style.transform is scoped to just those nodes and runs
+      // entirely on the compositor thread.
+      //
+      // Elements opt in by adding data-parallax="<rate>" where rate is a
+      // multiplier on the base 10% scroll offset (1 = full rate, 0.5 = half).
+      const parallaxEls = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-parallax]"),
+      );
+
       lenis.on("scroll", ({ scroll }: { scroll: number }) => {
-        document.documentElement.style.setProperty(
-          "--parallax-bg",
-          `${(scroll * 0.1).toFixed(1)}px`,
-        );
+        for (const el of parallaxEls) {
+          const rate = parseFloat(el.dataset.parallax ?? "1");
+          el.style.transform = `translateY(${(scroll * 0.1 * rate).toFixed(1)}px)`;
+        }
       });
 
       document.addEventListener("click", onClick);

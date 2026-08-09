@@ -37,8 +37,9 @@ export function Hero() {
         loop
         playsInline
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover hero-parallax"
-        style={{ opacity: 0.06, scale: "1.15" }}
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        style={{ opacity: 0.06, scale: "1.15", willChange: "transform" }}
+        data-parallax="1"
         src="/bg-hero.mp4"
       />
 
@@ -47,7 +48,8 @@ export function Hero() {
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 hidden lg:block"
-        style={{ transform: "translateY(calc(var(--parallax-bg, 0px) * 0.5))", willChange: "transform" }}
+        style={{ willChange: "transform" }}
+        data-parallax="0.5"
       >
         <div className="shell h-full">
           <div className="grid h-full grid-cols-4 [mask-image:linear-gradient(to_bottom,transparent,black_18%,black_82%,transparent)]">

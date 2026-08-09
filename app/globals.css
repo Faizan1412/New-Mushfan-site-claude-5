@@ -536,12 +536,12 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Hero background parallax — translates at 10% of scroll speed via the
-   --parallax-bg property written by SmoothScroll's Lenis scroll event.
-   Apply to absolutely-positioned decorative layers only; content must never
-   move with this, or IntersectionObserver thresholds will drift. */
+/* Hero parallax — promoted to its own compositor layer. SmoothScroll writes
+   transform directly to [data-parallax] elements on each scroll tick, which
+   is scoped to just those nodes and avoids a full-document style recalc.
+   will-change is declared here as a fallback for any element that keeps the
+   class without a data-parallax attribute. */
 @utility hero-parallax {
-  transform: translateY(var(--parallax-bg, 0px));
   will-change: transform;
 }
 
