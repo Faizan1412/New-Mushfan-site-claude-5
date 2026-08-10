@@ -18,10 +18,9 @@ export const site = {
 
 export const contact = {
   email: "hello@mushfandigitalstudio.com",
-  /** Placeholder — replace with the real number before launch. */
-  phone: "+91 XXXXX XXXXX",
+  phone: "+91 8103751632",
   /** Digits only, for tel: links. Replace alongside `phone`. */
-  phoneHref: "+91XXXXXXXXXX",
+  phoneHref: "+918103751632",
   location: "India",
   /**
    * Region-level only. No street address is claimed here; add one only when

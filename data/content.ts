@@ -40,7 +40,7 @@ export const heroDeliverables: HeroDeliverable[] = [
    Placeholders. Replace with real figures, then flip the notice off.
    ────────────────────────────────────────────────────────────────────────── */
 
-export const SHOW_STATS_NOTICE = true;
+export const SHOW_STATS_NOTICE = false;
 
 export type Stat = {
   value: string;
@@ -133,7 +133,7 @@ export const reels: Reel[] = [
    Never present these as real reviews.
    ────────────────────────────────────────────────────────────────────────── */
 
-export const SHOW_TESTIMONIALS_NOTICE = true;
+export const SHOW_TESTIMONIALS_NOTICE = false;
 
 export type Testimonial = {
   id: string;
@@ -180,7 +180,7 @@ export const testimonials: Testimonial[] = [
    measured, attributable results and then set SHOW_RESULTS_NOTICE to false.
    ────────────────────────────────────────────────────────────────────────── */
 
-export const SHOW_RESULTS_NOTICE = true;
+export const SHOW_RESULTS_NOTICE = false;
 
 export type ResultMetric = {
   value: string;
