@@ -13,13 +13,14 @@
  * ──────────────────────────────────────────────────────────────────────────
  */
 
-export const SHOW_PLACEHOLDER_NOTICE = true;
+export const SHOW_PLACEHOLDER_NOTICE = false;
 
 export type ProjectVisualKey = "grid" | "stack" | "signal" | "mark" | "feed" | "cart";
 
 export type Project = {
   slug: string;
   name: string;
+  /** Short category label shown in the spec line, e.g. "Fitness". */
   industry: string;
   services: string[];
   description: string;
@@ -31,21 +32,33 @@ export type Project = {
   /** Alt text used when `image` is set. */
   imageAlt?: string;
   visual: ProjectVisualKey;
-  /** Optional external or internal link to a case study. */
+  /** Optional external or internal link to a case study / live site. */
   href?: string;
+  /**
+   * When true the image slowly pans from top to bottom on a loop, revealing
+   * the full-page screenshot inside the fixed-ratio card frame.
+   */
+  scrollPreview?: boolean;
+  /** Subtitle / category tag shown above the project name. */
+  subtitle?: string;
 };
 
 export const projects: Project[] = [
   {
-    slug: "healthcare-website",
-    name: "Healthcare Website",
-    industry: "Healthcare",
-    services: ["Web Development", "SEO", "Branding"],
+    slug: "gym-365-days",
+    name: "Gym 365 Days",
+    subtitle: "Website",
+    industry: "Fitness",
+    services: ["Web Development", "UI/UX Design", "Branding"],
     description:
-      "A clinic site built around appointment enquiries: clear service pages, fast mobile load and a booking flow that works on a phone in a waiting room.",
+      "A modern, high-converting website designed for a fitness brand, combining bold visuals, seamless user experience, and a strong digital presence that turns visitors into potential members.",
     year: "2025",
     ratio: "16:9",
     visual: "grid",
+    image: "/images/work/gym-365-days.png",
+    imageAlt: "Gym 365 Days website — full-page screenshot",
+    href: "https://gym365days-fea983-200-141-7-236.sslip.io/",
+    scrollPreview: true,
   },
   {
     slug: "fitness-brand-campaign",

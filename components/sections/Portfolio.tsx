@@ -93,7 +93,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 alt={project.imageAlt ?? ""}
                 fill
                 sizes="(min-width: 1408px) 628px, (min-width: 768px) 46vw, 100vw"
-                className="object-cover"
+                className={project.scrollPreview ? "scroll-preview-img" : "object-cover"}
               />
             ) : (
               <ProjectVisual visual={project.visual} ratio={project.ratio} />
@@ -107,6 +107,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       <p className="label mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-ink-3">
         <span className="tnum text-accent-ink">{number}</span>
         <span className="h-3 w-px bg-rule" aria-hidden="true" />
+        {project.subtitle ? (
+          <>
+            <span>{project.subtitle}</span>
+            <span className="h-3 w-px bg-rule" aria-hidden="true" />
+          </>
+        ) : null}
         <span>{project.industry}</span>
         <span className="h-3 w-px bg-rule" aria-hidden="true" />
         <span className="tnum">{project.year}</span>

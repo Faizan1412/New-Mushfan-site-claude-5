@@ -811,3 +811,49 @@
     display: none;
   }
 }
+
+/* ==========================================================================
+   PORTFOLIO SCROLL PREVIEW
+   --------------------------------------------------------------------------
+   Full-page screenshot slowly pans top → bottom → top on a loop, letting
+   the fixed-ratio card frame act like a viewport into the whole site.
+
+   The image is positioned with object-position: top so it starts at the
+   header. The keyframe moves object-position from top to bottom and back.
+   Duration is long (14s) so the pan reads as deliberate, not frantic.
+   Pauses on hover so the user can inspect a specific section.
+   ========================================================================== */
+
+@keyframes scroll-preview {
+  0%,
+  8% {
+    object-position: center top;
+  }
+  46%,
+  54% {
+    object-position: center bottom;
+  }
+  92%,
+  100% {
+    object-position: center top;
+  }
+}
+
+.scroll-preview-img {
+  animation: scroll-preview 14s ease-in-out infinite;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* Pause on hover so the user can read a section without it sliding away. */
+.group:hover .scroll-preview-img,
+.group:focus-within .scroll-preview-img {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-preview-img {
+    animation: none !important;
+    object-position: center top !important;
+  }
+}
