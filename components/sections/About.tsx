@@ -19,9 +19,9 @@ import { heroDisciplines } from "@/data/content";
  */
 
 const stack = [
-  { ratio: "16 / 9", offset: "lg:ml-0", src: "/images/about/studio-1.webp", alt: "Studio setup" },
-  { ratio: "4 / 5", offset: "lg:ml-10", src: "/images/about/studio-2.webp", alt: "Studio lighting" },
-  { ratio: "9 / 16", offset: "lg:ml-20", src: "/images/about/studio-3.webp", alt: "Studio mic" },
+  { ratio: "16 / 9", offset: "lg:ml-0", src: "/images/about/studio-1.jpg", alt: "Studio setup" },
+  { ratio: "4 / 5", offset: "lg:ml-10", src: "/images/about/studio-2.jpg", alt: "Studio lighting" },
+  { ratio: "9 / 16", offset: "lg:ml-20", src: "/images/about/studio-3.jpg", alt: "Studio mic" },
 ];
 
 const capabilities = [
