@@ -61,15 +61,18 @@ export const projects: Project[] = [
     scrollPreview: true,
   },
   {
-    slug: "fitness-brand-campaign",
-    name: "Fitness Brand Campaign",
-    industry: "Fitness",
-    services: ["Video & Creative", "Social Advertising"],
+    slug: "delhi-darpan-automation",
+    name: "Intelligent News Automation System",
+    subtitle: "Automation",
+    industry: "Media & News",
+    services: ["AI Automation", "Workflow Engineering", "CMS Integration"],
     description:
-      "A launch campaign carried by short-form video — a library of reels and ad cuts versioned for feed, story and reel placements.",
+      "An intelligent news automation system built for Delhi Darpan that streamlines the process of discovering relevant articles, organizing content, and publishing news efficiently.",
     year: "2025",
     ratio: "4:5",
     visual: "signal",
+    image: "/images/work/delhi-darpan-automation.png",
+    imageAlt: "Delhi Darpan news automation workflow — n8n pipeline mockup",
   },
   {
     slug: "local-business-campaign",

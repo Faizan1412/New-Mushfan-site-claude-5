@@ -826,21 +826,26 @@
 
 @keyframes scroll-preview {
   0%,
-  8% {
+  5% {
     object-position: center top;
   }
-  46%,
-  54% {
+  /* Slow scroll down — takes 70% of the total duration */
+  75% {
     object-position: center bottom;
   }
-  92%,
+  /* Short pause at the bottom */
+  80% {
+    object-position: center bottom;
+  }
+  /* Quick scroll back up — takes only 20% of the duration */
+  98%,
   100% {
     object-position: center top;
   }
 }
 
 .scroll-preview-img {
-  animation: scroll-preview 14s ease-in-out infinite;
+  animation: scroll-preview 20s linear infinite;
   object-fit: cover;
   object-position: center top;
 }
