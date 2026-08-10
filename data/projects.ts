@@ -130,5 +130,8 @@ export const projects: Project[] = [
     year: "2026",
     ratio: "4:5",
     visual: "feed",
+    image: "/images/work/next-project.jpg",
+    imageAlt: "Social media mockup — iPhone 16 Instagram UI",
+    href: "/contact",
   },
 ];
