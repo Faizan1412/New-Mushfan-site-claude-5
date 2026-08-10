@@ -47,6 +47,20 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
+      {/* ── FN Group banner ──────────────────────────────────────────────── */}
+      <div className="bg-carbon text-chalk">
+        <div className="shell py-5">
+          <Reveal>
+            <p className="text-[0.9375rem] leading-relaxed text-chalk-2 text-center">
+              Mushfan Digital Studio is a unit of{" "}
+              <span className="font-semibold text-chalk">FN Group</span> — parent company of{" "}
+              <span className="font-semibold text-chalk">FN News Channel</span> &amp;{" "}
+              <span className="font-semibold text-chalk">Hamara Sports</span>.
+            </p>
+          </Reveal>
+        </div>
+      </div>
+
       <PageHeader
         label="About"
         titleId="about-title"

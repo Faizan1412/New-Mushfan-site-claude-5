@@ -27,6 +27,9 @@ export function Footer() {
             </p>
             <p className="label-sm mt-2 text-chalk-2">Digital Studio</p>
             <p className="mt-5 text-[0.9375rem] leading-relaxed text-chalk-2">{site.tagline}</p>
+            <p className="mt-3 text-[0.8125rem] leading-relaxed text-chalk-3">
+              A unit of <span className="text-chalk-2">FN Group</span> — home of FN News Channel &amp; Hamara Sports.
+            </p>
 
             <a
               href={`mailto:${contact.email}`}
