@@ -67,7 +67,7 @@ export const projects: Project[] = [
     industry: "Media & News",
     services: ["AI Automation", "Workflow Engineering", "CMS Integration"],
     description:
-      "An intelligent news automation system built for Delhi Darpan that streamlines the process of discovering relevant articles, organizing content, and publishing news efficiently.",
+      "An intelligent news automation system built for Delhi Darpan that streamlines the process of discovering relevant articles, organizing content, and publishing news efficiently—reducing manual effort while keeping the newsroom's digital presence consistently updated.",
     year: "2025",
     ratio: "4:5",
     visual: "signal",
