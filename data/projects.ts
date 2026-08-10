@@ -73,6 +73,7 @@ export const projects: Project[] = [
     visual: "signal",
     image: "/images/work/delhi-darpan-automation.png",
     imageAlt: "Delhi Darpan news automation workflow — n8n pipeline mockup",
+    href: "https://delhidarpantv.com/",
   },
   {
     slug: "local-business-campaign",
