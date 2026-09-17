@@ -15,6 +15,8 @@ import { NavLink } from "@/components/layout/NavLink";
  * crumb, so it is a working orientation device rather than decoration.
  */
 
+type Crumb = { label: string; href?: string };
+
 type PageHeaderProps = {
   /** Mono eyebrow above the heading. */
   label: string;
@@ -23,9 +25,17 @@ type PageHeaderProps = {
   titleId: string;
   /** Optional slot under the lede — actions, a note, a detail strip. */
   children?: ReactNode;
+  /**
+   * Breadcrumb trail. Defaults to "Home → label" when omitted. Pass an array
+   * for nested routes (e.g. /services/[slug] under /services). The last entry
+   * is rendered as the current page with `aria-current` and no href.
+   */
+  crumbs?: Crumb[];
 };
 
-export function PageHeader({ label, title, lede, titleId, children }: PageHeaderProps) {
+export function PageHeader({ label, title, lede, titleId, children, crumbs }: PageHeaderProps) {
+  const trail: Crumb[] = crumbs ?? [{ label: "Home", href: "/" }, { label }];
+
   return (
     <header className="hairline-b bg-paper">
       {/* Slightly shallower than a full section: this sits directly under the
@@ -35,18 +45,34 @@ export function PageHeader({ label, title, lede, titleId, children }: PageHeader
         <Reveal>
           <nav aria-label="Breadcrumb">
             <ol className="label flex flex-wrap items-center gap-x-3 gap-y-1 text-ink-3">
-              <li>
-                <NavLink href="/" className="transition-colors duration-200 hover:text-ink">
-                  Home
-                </NavLink>
-              </li>
-              <li aria-hidden="true" className="text-rule">
-                /
-              </li>
-              <li className="flex items-center gap-2 text-ink-2" aria-current="page">
-                <span className="reg-dot" aria-hidden="true" />
-                {label}
-              </li>
+              {trail.map((crumb, i) => {
+                const isLast = i === trail.length - 1;
+                return (
+                  <li key={`${crumb.label}-${i}`} className="flex items-center gap-3">
+                    {i > 0 ? (
+                      <span aria-hidden="true" className="text-rule">
+                        /
+                      </span>
+                    ) : null}
+                    {isLast || !crumb.href ? (
+                      <span
+                        className="flex items-center gap-2 text-ink-2"
+                        aria-current="page"
+                      >
+                        <span className="reg-dot" aria-hidden="true" />
+                        {crumb.label}
+                      </span>
+                    ) : (
+                      <NavLink
+                        href={crumb.href}
+                        className="transition-colors duration-200 hover:text-ink"
+                      >
+                        {crumb.label}
+                      </NavLink>
+                    )}
+                  </li>
+                );
+              })}
             </ol>
           </nav>
         </Reveal>

@@ -31,6 +31,11 @@ export type Project = {
   image?: string;
   /** Alt text used when `image` is set. */
   imageAlt?: string;
+  /**
+   * Optional autoplaying video. When set, the video is rendered in place of the
+   * still image inside the framed plate.
+   */
+  video?: string;
   visual: ProjectVisualKey;
   /** Optional external or internal link to a case study / live site. */
   href?: string;
@@ -44,6 +49,21 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    slug: "thapa-sports",
+    name: "A Modern Sportswear Store",
+    subtitle: "E-commerce Website",
+    industry: "Sportswear",
+    services: ["Web Development", "UI/UX Design", "E-commerce"],
+    description:
+      "A high-energy e-commerce experience designed to showcase sportswear, simplify product discovery, and turn every visit into a seamless shopping journey.",
+    year: "2025",
+    ratio: "4:5",
+    visual: "cart",
+    image: "/images/work/thapa-sports.jpg",
+    imageAlt: "Thapa Sport Wear — e-commerce website on a monitor mockup",
+    href: "https://thapasports.com/",
+  },
   {
     slug: "gym-365-days",
     name: "Gym 365 Days",
@@ -61,6 +81,22 @@ export const projects: Project[] = [
     scrollPreview: true,
   },
   {
+    slug: "tbo-academy-video",
+    name: "Professional Video Edits for a Travel Agency",
+    subtitle: "Video Editing",
+    industry: "Travel & Tourism",
+    services: ["Video Editing", "Color Grading", "Motion Graphics"],
+    description:
+      "Transforming travel information into engaging, visually rich itinerary videos designed to inspire exploration and simplify trip planning.",
+    year: "2025",
+    ratio: "16:9",
+    visual: "mark",
+    image: "/images/work/tbo-academy-video.png",
+    imageAlt: "TBO Academy — travel itinerary video editing project mockup",
+    video: "/videos/tbo-academy-video.mp4",
+    href: "https://www.youtube.com/@TBOAcademy",
+  },
+  {
     slug: "delhi-darpan-automation",
     name: "Intelligent News Automation System",
     subtitle: "Automation",
@@ -76,36 +112,6 @@ export const projects: Project[] = [
     href: "https://delhidarpantv.com/",
   },
   {
-    slug: "tbo-academy-video",
-    name: "Professional Video Edits for a Travel Agency",
-    subtitle: "Video Editing",
-    industry: "Travel & Tourism",
-    services: ["Video Editing", "Color Grading", "Motion Graphics"],
-    description:
-      "Transforming travel information into engaging, visually rich itinerary videos designed to inspire exploration and simplify trip planning.",
-    year: "2025",
-    ratio: "16:9",
-    visual: "mark",
-    image: "/images/work/tbo-academy-video.png",
-    imageAlt: "TBO Academy — travel itinerary video editing project mockup",
-    href: "https://www.youtube.com/@TBOAcademy",
-  },
-  {
-    slug: "thapa-sports",
-    name: "A Modern Sportswear Store",
-    subtitle: "E-commerce Website",
-    industry: "Sportswear",
-    services: ["Web Development", "UI/UX Design", "E-commerce"],
-    description:
-      "A high-energy e-commerce experience designed to showcase sportswear, simplify product discovery, and turn every visit into a seamless shopping journey.",
-    year: "2025",
-    ratio: "4:5",
-    visual: "cart",
-    image: "/images/work/thapa-sports.jpg",
-    imageAlt: "Thapa Sport Wear — e-commerce website on a monitor mockup",
-    href: "https://thapasports.com/",
-  },
-  {
     slug: "fn-news-app",
     name: "Immersive App for a News Channel",
     subtitle: "App Development",
@@ -116,8 +122,8 @@ export const projects: Project[] = [
     year: "2025",
     ratio: "16:9",
     visual: "stack",
-    image: "/images/work/fn-news-app.png",
-    imageAlt: "FN News Channel — iPhone app mockup showing news feed",
+    image: "/images/work/fn-news-app-v2.png",
+    imageAlt: "Apni Patrika Delhi — iPhone news app mockup showing Explore, news feed, and article views",
   },
   {
     slug: "next-project",

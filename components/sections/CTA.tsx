@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
@@ -18,12 +19,21 @@ import { heroDisciplines } from "@/data/content";
  * placeholder, so a `tel:` link here would be a dead action dressed as a live
  * one — email is the channel that actually works today.
  *
- * `href` is a prop rather than a constant so a caller can still point the band
- * at a form on its own page. Nothing does today: the enquiry form lives only on
- * /contact now, so that is the default and every caller takes it.
+ * `title` and `primaryLabel` are props so callers can re-tune the headline
+ * and primary action per page. The default copy is the shared one used by
+ * /about and the homepage; service detail pages override it when they want
+ * a CTA that speaks to a specific engagement.
  */
 
-export function CTA({ href = "/contact" }: { href?: string }) {
+type CTAProps = {
+  href?: string;
+  /** Optional custom headline. */
+  title?: ReactNode;
+  /** Optional custom primary button label. */
+  primaryLabel?: string;
+};
+
+export function CTA({ href = "/contact", title, primaryLabel = "Start a Project" }: CTAProps) {
   return (
     <Section tone="paper-3" ruled compact labelledBy="cta-title">
       <div className="lg:grid lg:grid-cols-12 lg:items-end lg:gap-x-12">
@@ -37,8 +47,12 @@ export function CTA({ href = "/contact" }: { href?: string }) {
 
           <Reveal delay={60}>
             <h2 id="cta-title" className="display-2 mt-8 max-w-2xl">
-              Have a business ready to grow
-              <span className="text-accent-ink">?</span>
+              {title ?? (
+                <>
+                  Have a business ready to grow
+                  <span className="text-accent-ink">?</span>
+                </>
+              )}
             </h2>
           </Reveal>
 
@@ -51,7 +65,7 @@ export function CTA({ href = "/contact" }: { href?: string }) {
           <Reveal delay={180}>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <ButtonLink href={href} variant="primary" arrow data-cta="cta-primary">
-                Start a Project
+                {primaryLabel}
               </ButtonLink>
               <ButtonLink
                 href={`mailto:${contact.email}`}

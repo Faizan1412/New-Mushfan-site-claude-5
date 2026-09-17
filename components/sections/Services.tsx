@@ -38,7 +38,6 @@ export function Services() {
         index="01"
         label="Services"
         titleId="services-title"
-        title="Everything you need to grow digitally."
         lede="From strategy and creative to technology and performance, we bring the pieces of your digital presence together."
       />
 
@@ -67,8 +66,8 @@ export function Services() {
 
                   <h3 className="display-2 mt-5">
                     <a
-                      href="/contact"
-                      className="inline-flex items-baseline gap-3 text-ink no-underline transition-transform duration-300 ease-[var(--ease-out-quart)] group-hover:translate-x-1"
+                      href={`/services/${service.slug}`}
+                      className="inline-flex items-baseline gap-3 text-ink no-underline transition-[color,transform,translate] duration-300 ease-[var(--ease-out-quart)] group-hover:translate-x-1 group-hover:text-accent-ink focus-visible:text-accent-ink"
                       data-cta={`service-${service.index}`}
                     >
                       {service.title}

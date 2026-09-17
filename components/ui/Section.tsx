@@ -62,8 +62,12 @@ type SectionHeadProps = {
   index: string;
   /** Short rail label, e.g. "Services". */
   label: string;
-  /** The section heading. Rendered as h2 by default. */
-  title: ReactNode;
+  /** The section heading. Rendered as h2 by default. Optional — when omitted,
+      a visually-hidden heading carrying the label is rendered instead so the
+      section's aria-labelledby target still resolves. Used by sections whose
+      content carries its own headings (e.g. Services, whose rows are display-3
+      h3s) and would otherwise compete with another display-2 at the top. */
+  title?: ReactNode;
   /** Supporting paragraph under the heading. */
   lede?: string;
   /** Element id for the heading, referenced by Section's labelledBy. */
@@ -97,18 +101,26 @@ export function SectionHead({
 
       <div className={align === "split" ? "mt-7 lg:mt-0" : "mt-7 lg:mt-0 max-w-4xl"}>
         <Reveal delay={60}>
-          <Heading id={titleId} className={Heading === "h1" ? "display-1" : "display-2 max-w-3xl"}>
-            {title}
-          </Heading>
+          {title ? (
+            <Heading id={titleId} className={Heading === "h1" ? "display-1" : "display-2 max-w-3xl"}>
+              {title}
+            </Heading>
+          ) : (
+            /* sr-only keeps the labelledBy target live for assistive tech while
+               leaving the visual hierarchy to the rail label and the lede. */
+            <Heading id={titleId} className="sr-only">
+              {label}
+            </Heading>
+          )}
         </Reveal>
 
         {lede ? (
-          <Reveal delay={120}>
+          <Reveal delay={title ? 120 : 60}>
             <p className="lede mt-6 max-w-xl">{lede}</p>
           </Reveal>
         ) : null}
 
-        {aside ? <Reveal delay={180}>{aside}</Reveal> : null}
+        {aside ? <Reveal delay={title ? 180 : 120}>{aside}</Reveal> : null}
       </div>
     </header>
   );

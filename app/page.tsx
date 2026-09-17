@@ -17,9 +17,9 @@ export default function Home() {
       <Services />
       <Reels />
       <Portfolio />
-      <Process />
-      <About />
       <Testimonials />
+      <About />
+      <Process />
       <Results />
       <CTA />
     </>

@@ -1,5 +1,6 @@
 import { Section, SectionHead, DemoNote } from "@/components/ui/Section";
-import { Reveal } from "@/components/ui/Reveal";
+import { Marquee } from "@/components/ui/Marquee";
+import { Star } from "@/components/ui/Icons";
 import {
   SHOW_TESTIMONIALS_NOTICE,
   testimonials,
@@ -7,35 +8,14 @@ import {
 } from "@/data/content";
 
 /**
- * Testimonials — a ruled ledger that changes register with the viewport.
+ * Testimonials — Google-Review-style cards on an auto-scrolling rail.
  *
- * Three equal columns only work once there is room for them. At tablet width
- * three columns come out around 200px wide, which turns a two-sentence quote
- * into ten ragged lines — so the tablet band runs the first quote full-width as
- * a lead and pairs the other two beneath it. That is a real editorial device
- * rather than a fallback, and it avoids the orphan an even 2-up would leave.
- *
- * Attribution is pinned to a shared bottom edge with `mt-auto` on the equal-height
- * rows, so the three read as one register rather than three floating cards.
- *
- * ── Honesty ──────────────────────────────────────────────────────────────────
- * While `SHOW_TESTIMONIALS_NOTICE` is true these are clearly marked illustrative:
- * each quote carries a visible "Illustrative" tag, the notice under the section
- * says so in plain language, and no avatar is rendered — a stock face beside a
- * placeholder quote would read as a real, identified person. Nothing here claims
- * to be a review, and no review platform is referenced.
+ * The rail slides on its own, pauses on focus or click, and degrades to a
+ * hand-scrollable strip under prefers-reduced-motion. The mechanics live in
+ * `Marquee`; this component only defines the card.
  */
 
-/**
- * Column placement per index, written out rather than computed. The lead quote
- * spans the tablet grid and then rejoins the row at `lg`, which no tidy modulo
- * expresses.
- */
-const columns = [
-  "md:col-span-2 lg:col-span-1 lg:pr-10",
-  "md:pr-8 lg:border-l lg:border-rule lg:pr-10 lg:pl-10",
-  "md:border-l md:border-rule md:pl-8 lg:border-l lg:pl-10",
-];
+const MAX_RATING = 5;
 
 export function Testimonials() {
   return (
@@ -44,72 +24,83 @@ export function Testimonials() {
         index="05"
         label="Clients"
         titleId="testimonials-title"
-        title="What our clients say."
         lede="The reason businesses stay with us is rarely the deliverable. It is knowing what is happening and why."
       />
 
-      <ul className="mt-14 md:grid md:grid-cols-2 lg:mt-20 lg:grid-cols-3">
-        {testimonials.map((testimonial, i) => (
-          <Reveal
-            key={testimonial.id}
-            as="li"
-            delay={Math.min(i * 80, 240)}
-            className={`hairline-t flex flex-col py-8 lg:py-10 ${columns[i] ?? ""}`}
-          >
-            <QuoteBlock
-              testimonial={testimonial}
-              index={String(i + 1).padStart(2, "0")}
-              lead={i === 0}
-            />
-          </Reveal>
-        ))}
-      </ul>
+      <div className="mt-14 lg:mt-20">
+        <Marquee
+          label="Client reviews"
+          duration="72s"
+          className="-mx-5 px-5 [--marquee-fade:2.5rem] sm:-mx-8 sm:px-8 sm:[--marquee-fade:4rem] xl:-mx-14 xl:px-14 xl:[--marquee-fade:6rem]"
+        >
+          {testimonials.map((testimonial) => (
+            <li
+              key={testimonial.id}
+              className="mr-4 w-[88vw] shrink-0 sm:mr-6 sm:w-[20rem] lg:w-[22rem]"
+            >
+              <ReviewCard testimonial={testimonial} />
+            </li>
+          ))}
+        </Marquee>
 
-      {SHOW_TESTIMONIALS_NOTICE ? (
-        <DemoNote>
-          These are illustrative examples written to show the layout — not real client quotes,
-          and not sourced from any review platform. Genuine, permitted quotes replace them before
-          launch.
-        </DemoNote>
-      ) : null}
+        {SHOW_TESTIMONIALS_NOTICE ? (
+          <DemoNote>
+            Illustrative examples written to show the layout — not real client reviews, and not
+            sourced from any review platform. Genuine, permitted reviews replace them before
+            launch.
+          </DemoNote>
+        ) : null}
+      </div>
     </Section>
   );
 }
 
-function QuoteBlock({
-  testimonial,
-  index,
-  lead,
-}: {
-  testimonial: Testimonial;
-  index: string;
-  lead: boolean;
-}) {
+function ReviewCard({ testimonial }: { testimonial: Testimonial }) {
   return (
-    <figure className="flex h-full flex-col">
-      <div className="flex items-center justify-between gap-4">
-        <span className="label tnum text-accent-ink">{index}</span>
+    <article className="hairline flex h-full flex-col rounded-xs bg-paper p-6 shadow-raise lg:p-7">
+      <header className="flex items-center justify-between gap-4">
+        <RatingRow rating={testimonial.rating} />
+        <span className="label-sm text-ink-3">{testimonial.date}</span>
+      </header>
+
+      <div className="mt-5">
         {SHOW_TESTIMONIALS_NOTICE ? (
-          <span className="label-sm border border-rule px-2 py-1 text-ink-3">Illustrative</span>
+          <span className="label-sm mb-2 inline-flex w-fit border border-rule px-2 py-1 text-ink-3">
+            Illustrative
+          </span>
         ) : null}
+        <p className="text-[0.9375rem] font-semibold text-ink">{testimonial.name}</p>
+        <p className="label-sm mt-1 text-ink-3">
+          {[testimonial.role, testimonial.business].filter(Boolean).join(" · ")}
+        </p>
       </div>
 
-      {/* The lead quote is set larger only in the tablet band, where it has the
-          full width to carry it. At `lg` all three sit at the same size again. */}
-      <blockquote
-        className={`mt-7 text-[1.0625rem] leading-relaxed text-ink lg:text-lg ${
-          lead ? "md:max-w-2xl md:text-xl lg:text-lg" : ""
-        }`}
-      >
-        <p>{testimonial.quote}</p>
+      <blockquote className="mt-5 text-[0.9375rem] leading-relaxed text-ink lg:text-[1rem]">
+        <p>“{testimonial.quote}”</p>
       </blockquote>
 
-      <figcaption className="hairline-t mt-8 flex flex-col gap-1 pt-5 lg:mt-auto">
-        <span className="text-[0.9375rem] font-semibold text-ink">{testimonial.name}</span>
-        <span className="label-sm text-ink-3">
-          {[testimonial.role, testimonial.business].filter(Boolean).join(" · ")}
-        </span>
-      </figcaption>
-    </figure>
+      <p className="mt-6 inline-flex items-center gap-3 lg:mt-auto">
+        <span className="rail-rule" aria-hidden="true" />
+        <span className="label tnum text-accent-ink">{testimonial.engagement}</span>
+      </p>
+    </article>
+  );
+}
+
+function RatingRow({ rating }: { rating: number }) {
+  return (
+    <div
+      className="flex items-center gap-1 text-accent"
+      role="img"
+      aria-label={`Rated ${rating} out of ${MAX_RATING}`}
+    >
+      {Array.from({ length: MAX_RATING }).map((_, i) => (
+        <Star
+          key={i}
+          size={14}
+          className={i < rating ? "text-accent" : "text-rule"}
+        />
+      ))}
+    </div>
   );
 }

@@ -196,7 +196,16 @@ export default function AboutPage() {
             >
               <p className="label tnum text-ink-3 lg:col-span-1">{service.index}</p>
               <h3 className="mt-3 text-xl font-display font-semibold tracking-[-0.02em] text-ink lg:col-span-4 lg:mt-0">
-                {service.title}
+                <NavLink
+                  href={`/services/${service.slug}`}
+                  className="group inline-flex items-baseline gap-3 text-ink no-underline transition-transform duration-300 ease-[var(--ease-out-quart)] hover:translate-x-1"
+                >
+                  {service.title}
+                  <ArrowRight
+                    className="btn-arrow shrink-0 self-center text-ink-3 transition-colors duration-200 group-hover:text-accent-ink"
+                    size={16}
+                  />
+                </NavLink>
               </h3>
               <p className="mt-3 max-w-xl leading-relaxed text-ink-2 lg:col-span-7 lg:mt-0">
                 {service.summary}

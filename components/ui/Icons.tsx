@@ -93,3 +93,27 @@ export function Alert({ className, size = 16 }: IconProps) {
     </svg>
   );
 }
+
+/**
+ * Filled star — used for the testimonials rating row. Drawn on the same 16px
+ * grid as the line icons, but filled instead of stroked, because a stroke-only
+ * star reads as an outline at small sizes and the rating loses its weight.
+ * Always decorative: ratings are carried by the surrounding count, so the
+ * glyph is `aria-hidden`.
+ */
+export function Star({ className, size = 16 }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 16 16"
+      fill="currentColor"
+      stroke="none"
+      aria-hidden="true"
+      focusable={false}
+      className={className}
+    >
+      <path d="M8 1.5 L9.8 6 L14.5 6.4 L11 9.6 L11.8 14.2 L8 11.8 L4.2 14.2 L5 9.6 L1.5 6.4 L6.2 6 Z" />
+    </svg>
+  );
+}

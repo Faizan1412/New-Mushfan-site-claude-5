@@ -87,7 +87,19 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               hasCaseStudy ? "group-hover:scale-[1.02] group-focus-within:scale-[1.02]" : ""
             }`}
           >
-            {project.image ? (
+            {project.video ? (
+              <video
+                src={project.video}
+                poster={project.image}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-label={project.imageAlt ?? project.name}
+                className={project.scrollPreview ? "scroll-preview-img" : "object-cover h-full w-full"}
+              />
+            ) : project.image ? (
               <Image
                 src={project.image}
                 alt={project.imageAlt ?? ""}

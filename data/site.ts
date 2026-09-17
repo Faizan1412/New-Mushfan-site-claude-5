@@ -17,7 +17,7 @@ export const site = {
 } as const;
 
 export const contact = {
-  email: "hello@mushfandigitalstudio.com",
+  email: "hello@mushfan.com",
   phone: "+91 8103751632",
   /** Digits only, for tel: links. Replace alongside `phone`. */
   phoneHref: "+918103751632",
@@ -93,16 +93,17 @@ export const primaryNav: NavItem[] = [
 export const fullNav = primaryNav;
 
 /**
- * Footer service list. This mirrors the five headline services in
- * data/services.ts — keep the two in step so the footer never links to a
- * service the section does not present.
+ * Footer service list. Each entry points at the matching /services/[slug]
+ * page so the footer reaches every service the section on the homepage
+ * presents. Slugs are kept in step with data/services.ts — if a service is
+ * added, renamed or retired, update both lists in the same edit.
  */
 export const footerServices: NavItem[] = [
-  { label: "Digital Marketing", href: "/#services" },
-  { label: "Video & Creative", href: "/#services" },
-  { label: "Website & App Development", href: "/#services" },
-  { label: "AI & Automation", href: "/#services" },
-  { label: "SEO", href: "/#services" },
+  { label: "Digital Marketing", href: "/services/digital-marketing" },
+  { label: "Video & Creative", href: "/services/video-creative" },
+  { label: "Website & App Development", href: "/services/website-app-development" },
+  { label: "AI & Automation", href: "/services/ai-automation" },
+  { label: "SEO", href: "/services/seo" },
 ];
 
 export const legalNav: NavItem[] = [
