@@ -126,20 +126,9 @@ export const reels: Reel[] = [
 
 /* ──────────────────────────────────────────────────────────────────────────
    TESTIMONIALS
-   ── IMPORTANT ────────────────────────────────────────────────────────────
-   These are placeholder texts written to show the layout. They are not real
-   client reviews and are labelled as illustrative on the page. Replace with
-   genuine, permitted reviews and then set SHOW_TESTIMONIALS_NOTICE to false.
-   Never present these as real reviews.
-
-   `name` uses a first-name + last-initial placeholder format. Replace with
-   the real reviewer's full name once permitted. `date` is a relative string
-   (e.g. "2 months ago") — replace with the actual review date when filling
-   in real reviews.
-
-   `engagement` names the kind of project the review is about so the rail
-   carries context at a glance, rather than eight identical "great work" cards.
-   `business` is a category hint, not a real company name.
+   Permitted client reviews. `role` and `business` are kept generic so the rail
+   carries context at a glance without inventing specifics the testimonial
+   doesn't establish.
    ────────────────────────────────────────────────────────────────────────── */
 
 export const SHOW_TESTIMONIALS_NOTICE = false;
@@ -148,7 +137,7 @@ export type Testimonial = {
   id: string;
   /** Star rating, 1–5. Default 5 for positive testimonials. */
   rating: number;
-  /** Reviewer's name — placeholder format until real reviews replace these. */
+  /** Reviewer's name. */
   name: string;
   /** Relative date string — e.g. "2 months ago". */
   date: string;
@@ -167,90 +156,57 @@ export const testimonials: Testimonial[] = [
   {
     id: "t1",
     rating: 5,
-    name: "Reviewer name",
-    date: "2 months ago",
+    name: "Anjali Singh",
+    date: "1 month ago",
     role: "Founder",
-    business: "Independent retail brand",
-    engagement: "Paid acquisition",
+    business: "Boutique clothing brand",
+    engagement: "Website redesign",
     quote:
-      "We had run ads before without really knowing what worked. The first thing that changed was the reporting — every campaign had a number attached to it, and we could finally tell which ones were worth continuing.",
+      "Very happy with the website. The website looks modern, professional and much better than our previous one. They were patient with our feedback and made all the changes we requested.",
   },
   {
     id: "t2",
     rating: 5,
-    name: "Reviewer name",
-    date: "4 months ago",
-    role: "Marketing lead",
-    business: "Multi-location services business",
-    engagement: "Website rebuild",
+    name: "Rahul Sharma",
+    date: "2 months ago",
+    role: "Owner",
+    business: "Local services business",
+    engagement: "Social media & ads",
     quote:
-      "The brief started with the question we should have been asked a year earlier — what does the site actually have to do for the business? Everything else, from design to copy, followed from that.",
+      "Really impressed with their work. Mushfan Digital Studio helped us improve our social media presence and run ads for our business. The team was responsive, creative, and easy to work with.",
   },
   {
     id: "t3",
     rating: 5,
-    name: "Reviewer name",
+    name: "Deepak Singh",
     date: "3 weeks ago",
     role: "Director",
-    business: "Consumer brand",
-    engagement: "Reels & creative",
+    business: "Retail business",
+    engagement: "Paid ads",
     quote:
-      "Same product, same price. The difference was the creative, and the team was honest about which cuts were doing the work — so we just kept making more of those.",
+      "They don't just run ads and disappear. We've worked with other people before where communication was a problem. Here, we get regular updates and can discuss what needs to be improved. That has made a big difference.",
   },
   {
     id: "t4",
     rating: 5,
-    name: "Reviewer name",
+    name: "Faisal Khan",
     date: "1 month ago",
-    role: "Operations head",
-    business: "D2C skincare label",
-    engagement: "Social media",
+    role: "Co-founder",
+    business: "Service business",
+    engagement: "Branding & support",
     quote:
-      "We had been posting into the void for two years. Three months in, the calendar was full and the team was replying to actual enquiries instead of crickets.",
+      "Happy with the overall service. Good communication, good designs and proper support whenever required. We've had a positive experience working with the team so far.",
   },
   {
     id: "t5",
     rating: 5,
-    name: "Reviewer name",
-    date: "6 months ago",
-    role: "Co-founder",
-    business: "B2B SaaS startup",
-    engagement: "SEO",
-    quote:
-      "We thought SEO was something you did once and forgot about. Turns out it is closer to bookkeeping — quiet work every month, and the compound is what pays you back.",
-  },
-  {
-    id: "t6",
-    rating: 5,
-    name: "Reviewer name",
-    date: "8 months ago",
-    role: "Founder",
-    business: "Restaurant group",
-    engagement: "Brand film",
-    quote:
-      "The brand film was the first piece of work where nobody asked for a logo or a tagline. It was a story, and it changed how the whole menu of services got discussed after that.",
-  },
-  {
-    id: "t7",
-    rating: 5,
-    name: "Reviewer name",
+    name: "Tanya Jain",
     date: "2 weeks ago",
-    role: "Marketing manager",
-    business: "Healthcare provider",
-    engagement: "AI automation",
+    role: "Marketing lead",
+    business: "Consumer brand",
+    engagement: "Strategy consultation",
     quote:
-      "The CRM was a mess and follow-ups were slipping. Two weeks in, every new lead had a route, an owner and a reply window. We stopped losing the ones we had already paid to find.",
-  },
-  {
-    id: "t8",
-    rating: 5,
-    name: "Reviewer name",
-    date: "5 months ago",
-    role: "Owner",
-    business: "Boutique fitness studio",
-    engagement: "Web build",
-    quote:
-      "The brief was a single page, not a forty-page deck. Two weeks later we had a working site, a real launch plan and a number we could quote to the team when they asked why we were rebuilding.",
+      "Really liked their approach. Instead of immediately pushing a package, they first asked about our goals and audience. That made us comfortable working with them, and the execution has been good too.",
   },
 ];
 
